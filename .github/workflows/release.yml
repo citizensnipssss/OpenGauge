@@ -57,8 +57,7 @@ jobs:
 
       - name: Zip dashboard
         run: |
-          cd dashboard-src/dist
-          zip -r ../../firmware-build/BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip .
+          zip -r firmware-build/BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip dashboard-src/dist/
 
       # --- Create GitHub Release ---
       - name: Create Release
