@@ -1,0 +1,227 @@
+{
+  "theme": "performance_chrome",
+  "notes": "Prototype UI defaults only. Logical telemetry keys are stable app-level identifiers; do not infer real truck PID/CAN mappings, sensor equations, or wiring from this file.",
+  "gauges": [
+    {
+      "id": "boost",
+      "label": "BOOST",
+      "unit": "PSI",
+      "precision": 0,
+      "scale": {
+        "min": -15,
+        "max": 40
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 30
+      },
+      "telemetryKey": "boost",
+      "demoValue": 0,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "fuel_pressure",
+      "label": "FUEL PRESS",
+      "unit": "PSI",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 30
+      },
+      "warning": {
+        "mode": "low_all_lit",
+        "low": 10
+      },
+      "telemetryKey": "fuel_pressure",
+      "demoValue": 14,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD_external_or_verified"
+      }
+    },
+    {
+      "id": "egt",
+      "label": "EGT",
+      "unit": "°F",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 1600
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 1250
+      },
+      "telemetryKey": "egt",
+      "demoValue": 360,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD_external_sensor"
+      }
+    },
+    {
+      "id": "trans_temp",
+      "label": "TRANS TEMP",
+      "unit": "°F",
+      "precision": 0,
+      "scale": {
+        "min": 100,
+        "max": 300
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 220
+      },
+      "telemetryKey": "trans_temp",
+      "demoValue": 165,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "oil_pressure",
+      "label": "OIL PRESS",
+      "unit": "PSI",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 100
+      },
+      "warning": {
+        "mode": "low_all_lit",
+        "low": 15
+      },
+      "telemetryKey": "oil_pressure",
+      "demoValue": 35,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "coolant_temp",
+      "label": "COOLANT",
+      "unit": "°F",
+      "precision": 0,
+      "scale": {
+        "min": 100,
+        "max": 260
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 220
+      },
+      "telemetryKey": "coolant_temp",
+      "demoValue": 185,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "voltage",
+      "label": "VOLTAGE",
+      "unit": "V",
+      "precision": 1,
+      "scale": {
+        "min": 10,
+        "max": 16
+      },
+      "warning": {
+        "mode": "outside_band_all_lit",
+        "low": 12.0,
+        "high": 15.0
+      },
+      "telemetryKey": "voltage",
+      "demoValue": 14.2,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "iat",
+      "label": "IAT",
+      "unit": "°F",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 200
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 150
+      },
+      "telemetryKey": "iat",
+      "demoValue": 82,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "rpm",
+      "label": "RPM",
+      "unit": "RPM",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 4000
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 3200
+      },
+      "telemetryKey": "rpm",
+      "demoValue": 720,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "speed",
+      "label": "SPEED",
+      "unit": "MPH",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 120
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 85
+      },
+      "telemetryKey": "speed",
+      "demoValue": 0,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    },
+    {
+      "id": "engine_load",
+      "label": "ENGINE LOAD",
+      "unit": "%",
+      "precision": 0,
+      "scale": {
+        "min": 0,
+        "max": 100
+      },
+      "warning": {
+        "mode": "high_segments",
+        "high": 95
+      },
+      "telemetryKey": "engine_load",
+      "demoValue": 10,
+      "physicalSource": {
+        "status": "unverified",
+        "notes": "TBD"
+      }
+    }
+  ]
+}

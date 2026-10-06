@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "notes": "Illustrative only; layoutId and slot IDs are placeholders until the production layout registry is defined.",
+  "layoutId": "four-slot-example",
+  "themeId": "performance_chrome",
+  "themeOverrides": {
+    "activeColor": "#ff9700",
+    "warningColor": "#e62929",
+    "digitColor": "#ff6a00",
+    "glow": 1.0
+  },
+  "slots": [
+    {
+      "slotId": "slot-1",
+      "channelId": "boost",
+      "overrides": {}
+    },
+    {
+      "slotId": "slot-2",
+      "channelId": "egt",
+      "overrides": {}
+    },
+    {
+      "slotId": "slot-3",
+      "channelId": "fuel_pressure",
+      "overrides": {}
+    },
+    {
+      "slotId": "slot-4",
+      "channelId": "trans_temp",
+      "overrides": {}
+    }
+  ]
+}

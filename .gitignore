@@ -1,0 +1,6 @@
+build/
+dashboard-src/node_modules/
+dashboard-src/dist/
+*.bin
+*.elf
+*.map
