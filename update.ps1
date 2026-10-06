@@ -25,7 +25,7 @@ $ErrorActionPreference = "Stop"
 # --- Config ---
 $DeviceHost     = "buckifyoutruck.local"
 $DeviceIP       = "192.168.4.1"
-$SketchPath     = "$PSScriptRoot\truck_gauge.ino"
+$SketchPath     = "$PSScriptRoot\BuckIfYouTruck.ino"
 $BuildDir       = "$PSScriptRoot\build"
 $DashboardSrc   = "$PSScriptRoot\dashboard-src"
 $DashboardDist  = "$PSScriptRoot\dashboard-src\dist"
@@ -56,7 +56,7 @@ function Do-Firmware {
     if ($LASTEXITCODE -ne 0) { Write-Fail "Compile failed" }
     Write-Ok "Compile successful"
 
-    $binFile = "$BuildDir\truck_gauge.ino.bin"
+    $binFile = "$BuildDir\BuckIfYouTruck.ino.bin"
     if (-not (Test-Path $binFile)) { Write-Fail "Binary not found at $binFile" }
 
     Write-Step "Uploading firmware via OTA to $DeviceIP..."

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gauge-dashboard</title>
+    <script type="module" crossorigin>(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e={a:`13,0 61,0 70,9 61,18 13,18 4,9`,b:`74,14 83,23 83,64 74,73 65,64 65,23`,c:`74,79 83,88 83,129 74,138 65,129 65,88`,d:`13,134 61,134 70,143 61,152 13,152 4,143`,e:`0,79 9,88 9,129 0,138 -9,129 -9,88`,f:`0,14 9,23 9,64 0,73 -9,64 -9,23`,g:`13,67 61,67 70,76 61,85 13,85 4,76`},t={0:[`a`,`b`,`c`,`d`,`e`,`f`],1:[`b`,`c`],2:[`a`,`b`,`g`,`e`,`d`],3:[`a`,`b`,`c`,`d`,`g`],4:[`f`,`g`,`b`,`c`],5:[`a`,`f`,`g`,`c`,`d`],6:[`a`,`f`,`g`,`e`,`c`,`d`],7:[`a`,`b`,`c`],8:[`a`,`b`,`c`,`d`,`e`,`f`,`g`],9:[`a`,`b`,`c`,`d`,`f`,`g`],"-":[`g`]},n=`http://www.w3.org/2000/svg`,r=0;function i(e){let t=parseInt(e.replace(`#`,``),16);return{r:t>>16&255,g:t>>8&255,b:t&255}}function a(e,t,n){return`#`+[e,t,n].map(e=>Math.max(0,Math.min(255,Math.round(e))).toString(16).padStart(2,`0`)).join(``)}function o(e,t,n){let r=i(e),o=i(t);return a(r.r+(o.r-r.r)*n,r.g+(o.g-r.g)*n,r.b+(o.b-r.b)*n)}var s=(e,t=.35)=>o(e,`#ffffff`,t),c=(e,t=.35)=>o(e,`#000000`,t);function l(e,t){let n=Math.floor(Math.log10(e)),r=e/10**n,i;return i=t?r<1.5?1:r<3?2:r<4.5?2.5:r<7?5:10:r<=1?1:r<=2?2:r<=2.5?2.5:r<=5?5:10,i*10**n}function u(e,t,n=7){let r=l((t-e)/(n-1),!0),i=Math.ceil(e/r)*r,a=[];for(let n=i;n<=t+r*1e-6;n+=r)n>=e-1e-9&&a.push(Number(n.toFixed(10)));return Math.abs(a[0]-e)>r*.18&&a.unshift(e),Math.abs(a[a.length-1]-t)>r*.18&&a.push(t),{ticks:a,step:r}}var d=class extends HTMLElement{def;theme;uid;currentValue=0;svg;elLive;elOff;elTicks;elLabels;elDigits;constructor(){super(),this.uid=`pcg${r++}`,this.attachShadow({mode:`open`})}configure(e,t){this.def=e,this.theme=t,this.currentValue=e.demoValue,this.render()}set value(e){this.currentValue=e,this.elLive&&(this.updateSegments(),this.renderDigits())}get value(){return this.currentValue}angleFor(e){let{arcStartDeg:t,arcEndDeg:n}=this.theme.geometry,r=n-t;return t+Math.max(0,Math.min(1,(e-this.def.scale.min)/(this.def.scale.max-this.def.scale.min)))*r}polar(e,t,n,r){let i=(r-90)*Math.PI/180;return[e+n*Math.cos(i),t+n*Math.sin(i)]}segmentPath(e){let t=this.theme.geometry,n=t.segmentHalfAngleDeg,r=e-n,i=e+n,a=this.polar(500,500,t.segmentOuterRadius,r),o=this.polar(500,500,t.segmentOuterRadius,i),s=this.polar(500,500,t.segmentInnerRadius,i),c=this.polar(500,500,t.segmentInnerRadius,r);return`M ${a[0].toFixed(1)} ${a[1].toFixed(1)} L ${o[0].toFixed(1)} ${o[1].toFixed(1)} L ${s[0].toFixed(1)} ${s[1].toFixed(1)} L ${c[0].toFixed(1)} ${c[1].toFixed(1)} Z`}isSegmentWarning(e){let t=this.def.warning;switch(t.mode){case`high_segments`:return t.high!==void 0&&e>=t.high;case`low_all_lit`:return t.low!==void 0&&this.currentValue<=t.low;case`outside_band_all_lit`:return t.low!==void 0&&this.currentValue<=t.low||t.high!==void 0&&this.currentValue>=t.high;default:return!1}}updateSegments(){[...this.elLive.children].forEach(e=>{let t=Number(e.dataset.value);t<=this.currentValue?(e.style.opacity=`1`,e.setAttribute(`fill`,this.isSegmentWarning(t)?`url(#warnGrad-${this.uid})`:`url(#activeGrad-${this.uid})`)):e.style.opacity=`0`})}renderSegments(){this.elOff.innerHTML=``,this.elLive.innerHTML=``;let e=this.theme.geometry,{min:t,max:r}=this.def.scale;for(let i=0;i<e.segments;i++){let a=i/(e.segments-1),o=e.arcStartDeg+a*(e.arcEndDeg-e.arcStartDeg),s=t+a*(r-t),c=this.segmentPath(o),l=document.createElementNS(n,`path`);l.setAttribute(`d`,c),l.setAttribute(`fill`,`#b9bec2`),l.setAttribute(`opacity`,`.78`),l.setAttribute(`stroke`,`#2c2f31`),l.setAttribute(`stroke-width`,`2`),this.elOff.appendChild(l);let u=document.createElementNS(n,`path`);u.setAttribute(`d`,c),u.dataset.value=String(s),this.elLive.appendChild(u)}this.updateSegments()}formatTick(e,t){let n=Math.abs(t);return n>=1?String(Math.round(e)):n>=.1?e.toFixed(1):e.toFixed(2)}renderScale(){this.elTicks.innerHTML=``,this.elLabels.innerHTML=``;let e=this.theme.geometry,{min:t,max:r}=this.def.scale,{ticks:i,step:a}=u(t,r,7),o=a/(a===0?1:5),s=Math.ceil(t/o)*o;for(let a=s;a<=r+o*.25;a+=o){if(a<t-1e-6)continue;let r=i.some(e=>Math.abs(e-a)<o*.08),s=this.angleFor(a),[c,l]=this.polar(500,500,r?e.majorTickOuterRadius:e.minorTickOuterRadius,s),[u,d]=this.polar(500,500,r?e.majorTickInnerRadius:e.minorTickInnerRadius,s),f=document.createElementNS(n,`line`);f.setAttribute(`x1`,String(c)),f.setAttribute(`y1`,String(l)),f.setAttribute(`x2`,String(u)),f.setAttribute(`y2`,String(d)),f.setAttribute(`stroke`,r?`#f1f3f5`:`#7f858b`),f.setAttribute(`stroke-width`,r?`5`:`2`),f.setAttribute(`stroke-linecap`,`round`),this.elTicks.appendChild(f)}i.forEach(t=>{let r=this.angleFor(t),[i,o]=this.polar(500,500,e.scaleLabelRadius,r),s=document.createElementNS(n,`text`);s.setAttribute(`x`,String(i)),s.setAttribute(`y`,String(o+7)),s.setAttribute(`fill`,`#f4f5f7`),s.setAttribute(`font-size`,`31`),s.setAttribute(`font-weight`,`700`),s.setAttribute(`text-anchor`,`middle`),s.setAttribute(`font-family`,`Arial, Helvetica, sans-serif`),s.textContent=this.formatTick(t,a),this.elLabels.appendChild(s)})}drawDigit(r,i,a,o,s){let l=document.createElementNS(n,`g`);l.setAttribute(`transform`,`translate(${i} ${a}) scale(${o})`);let u=t[r]||[],d=c(s,.88);for(let[t,r]of Object.entries(e)){let e=document.createElementNS(n,`polygon`);e.setAttribute(`points`,r),e.setAttribute(`fill`,u.includes(t)?s:d),u.includes(t)&&e.setAttribute(`filter`,`url(#digitGlow-${this.uid})`),l.appendChild(e)}this.elDigits.appendChild(l)}renderDigits(){this.elDigits.innerHTML=``;let e=this.theme.colors.digits,t=this.currentValue.toFixed(this.def.precision);if(this.def.precision>0){let r=[...t],i=.94,a=0;r.forEach((e,t)=>{a+=e===`.`?22.56:78.02,t<r.length-1&&(a+=e===`.`?10*i:18*i)});let o=500-a/2;r.forEach(t=>{if(t===`.`){let t=document.createElementNS(n,`circle`);t.setAttribute(`cx`,String(o+8*i)),t.setAttribute(`cy`,`550.42`),t.setAttribute(`r`,`6.58`),t.setAttribute(`fill`,e),t.setAttribute(`filter`,`url(#digitGlow-${this.uid})`),this.elDigits.appendChild(t),o+=31.959999999999997}else this.drawDigit(t,o,416,i,e),o+=94.94})}else{let n=1.02;t.length>=4&&(n=.88);let r=83*n,i=108*n,a=500-(r+(t.length-1)*i)/2;[...t].forEach(t=>{this.drawDigit(t,a,410,n,e),a+=i})}}buildStaticSvg(){let e=this.theme,t=this.uid,[,,r,i]=e.geometry.viewBox,a=document.createElementNS(n,`svg`);return a.setAttribute(`viewBox`,`0 0 ${r} ${i}`),a.setAttribute(`role`,`img`),a.setAttribute(`aria-label`,`${this.def.label} gauge`),a.style.width=`100%`,a.style.height=`100%`,a.style.display=`block`,a.innerHTML=`
+      <defs>
+        <radialGradient id="bezelOuter-${t}" cx="42%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="#f4f5f6"/><stop offset="16%" stop-color="#a7adb2"/>
+          <stop offset="35%" stop-color="#f7f7f7"/><stop offset="58%" stop-color="#777d82"/>
+          <stop offset="76%" stop-color="#d7dadd"/><stop offset="100%" stop-color="#34383c"/>
+        </radialGradient>
+        <linearGradient id="bezelInner-${t}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a0b0c"/><stop offset="40%" stop-color="#34383b"/>
+          <stop offset="65%" stop-color="#050607"/><stop offset="100%" stop-color="#1d2023"/>
+        </linearGradient>
+        <radialGradient id="faceGrad-${t}" cx="50%" cy="45%" r="65%">
+          <stop offset="0%" stop-color="#151718"/><stop offset="65%" stop-color="#090a0b"/><stop offset="100%" stop-color="#020303"/>
+        </radialGradient>
+        <linearGradient id="lcdGrad-${t}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#111315"/><stop offset="45%" stop-color="#020303"/><stop offset="100%" stop-color="#0c0e10"/>
+        </linearGradient>
+        <linearGradient id="activeGrad-${t}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${s(e.colors.active,.36)}"/>
+          <stop offset="36%" stop-color="${e.colors.active}"/>
+          <stop offset="100%" stop-color="${c(e.colors.active,.28)}"/>
+        </linearGradient>
+        <linearGradient id="warnGrad-${t}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${s(e.colors.warning,.3)}"/>
+          <stop offset="35%" stop-color="${e.colors.warning}"/>
+          <stop offset="100%" stop-color="${c(e.colors.warning,.38)}"/>
+        </linearGradient>
+        <pattern id="carbon-${t}" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="16" height="16" fill="#0b0c0d"/><rect width="8" height="16" fill="#111315"/>
+          <rect x="8" width="8" height="16" fill="#070809"/>
+          <path d="M0 0H16M0 8H16" stroke="#1d2022" stroke-width="1" opacity=".6"/>
+        </pattern>
+        <filter id="softShadow-${t}" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".75"/>
+        </filter>
+        <filter id="segmentGlow-${t}" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="digitGlow-${t}" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="4.1" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <circle cx="500" cy="500" r="472" fill="#080909" filter="url(#softShadow-${t})"/>
+      <circle cx="500" cy="500" r="455" fill="url(#bezelOuter-${t})" stroke="#f4f5f6" stroke-width="4"/>
+      <circle cx="500" cy="500" r="414" fill="url(#bezelInner-${t})" stroke="#1a1c1e" stroke-width="7"/>
+      <circle cx="500" cy="500" r="383" fill="url(#faceGrad-${t})" stroke="#090a0b" stroke-width="3"/>
+      <circle cx="500" cy="500" r="372" fill="url(#carbon-${t})" opacity=".78"/>
+      <circle cx="500" cy="500" r="360" fill="rgba(0,0,0,.42)"/>
+      <g id="offSegments-${t}"></g>
+      <g id="liveSegments-${t}" filter="url(#segmentGlow-${t})"></g>
+      <g id="ticks-${t}"></g>
+      <g id="labels-${t}"></g>
+      <rect x="${e.display.outer.x}" y="${e.display.outer.y}" width="${e.display.outer.width}" height="${e.display.outer.height}" rx="${e.display.outer.rx}" fill="#050607" stroke="#24282c" stroke-width="5"/>
+      <rect x="${e.display.inner.x}" y="${e.display.inner.y}" width="${e.display.inner.width}" height="${e.display.inner.height}" rx="${e.display.inner.rx}" fill="url(#lcdGrad-${t})" stroke="#090b0d" stroke-width="3"/>
+      <g id="digits-${t}"></g>
+      <text id="unitText-${t}" x="500" y="625" fill="#e5e8eb" font-size="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">${this.def.unit}</text>
+      ${e.lowerIdentity.accentLine?`<line id="accentLine-${t}" x1="430" y1="730" x2="570" y2="730" stroke="${e.colors.active}" stroke-width="6" stroke-linecap="round"/>`:``}
+      ${e.lowerIdentity.label?`<text id="labelText-${t}" x="500" y="790" fill="#f4f5f7" font-size="48" font-weight="800" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="3">${this.def.label}</text>`:``}
+    `,a}render(){if(!this.shadowRoot)return;this.shadowRoot.innerHTML=``,this.svg=this.buildStaticSvg(),this.shadowRoot.appendChild(this.svg);let e=this.uid;this.elOff=this.svg.querySelector(`#offSegments-${e}`),this.elLive=this.svg.querySelector(`#liveSegments-${e}`),this.elTicks=this.svg.querySelector(`#ticks-${e}`),this.elLabels=this.svg.querySelector(`#labels-${e}`),this.elDigits=this.svg.querySelector(`#digits-${e}`),this.renderSegments(),this.renderScale(),this.renderDigits()}};customElements.define(`pc-gauge`,d);var f=[{id:`fuel_pressure`,label:`FUEL PRESS`,unit:`PSI`,precision:0,scale:{min:0,max:30},warning:{mode:`low_all_lit`,low:10},telemetryKey:`fuel_psi`,demoValue:14},{id:`trans_temp`,label:`TRANS TEMP`,unit:`°F`,precision:0,scale:{min:100,max:300},warning:{mode:`high_segments`,high:220},telemetryKey:`trans_f`,demoValue:165},{id:`boost`,label:`BOOST`,unit:`PSI`,precision:0,scale:{min:-15,max:40},warning:{mode:`high_segments`,high:30},telemetryKey:`boost_psi`,demoValue:0},{id:`egt`,label:`EGT`,unit:`°F`,precision:0,scale:{min:0,max:1600},warning:{mode:`high_segments`,high:1250},telemetryKey:`egt_f`,demoValue:360}],p={id:`performance_chrome`,name:`Performance Chrome`,colors:{active:`#ff9700`,warning:`#e62929`,digits:`#ff6a00`},geometry:{viewBox:[0,0,1e3,1e3],arcStartDeg:-124,arcEndDeg:124,segments:34,segmentOuterRadius:344,segmentInnerRadius:306,segmentHalfAngleDeg:3.15,majorTickOuterRadius:282,majorTickInnerRadius:261,minorTickOuterRadius:288,minorTickInnerRadius:272,scaleLabelRadius:236},display:{outer:{x:322,y:398,width:356,height:185,rx:21},inner:{x:335,y:411,width:330,height:159,rx:15}},lowerIdentity:{showIcon:!1,accentLine:!0,label:!0}};async function m(){return f}async function h(){return p}var g=[{id:`fuel_pressure`,apiKey:`fuel_psi`},{id:`trans_temp`,apiKey:`trans_f`},{id:`boost`,apiKey:`boost_psi`},{id:`egt`,apiKey:`egt_f`}],_=document.createElement(`style`);_.textContent=`
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #080b0e;
+    font-family: Arial, sans-serif;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 14px;
+    background: #0c0f12;
+    border-bottom: 1px solid #1a1e22;
+    font-size: 11px;
+    color: #444;
+    flex-shrink: 0;
+  }
+  header .title { color: #666; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
+  #dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #222; display: inline-block; margin-right: 5px;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  #dot.ok  { background: #00e060; box-shadow: 0 0 6px #00e060; }
+  #dot.err { background: #e03030; box-shadow: 0 0 6px #e03030; }
+  .grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    background: #111;
+    padding: 2px;
+  }
+  .cell {
+    background: #080b0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+  }
+  .cell pc-gauge { display: block; width: 100%; max-width: 260px; aspect-ratio: 1/1; }
+  footer {
+    background: #0c0f12;
+    border-top: 1px solid #1a1e22;
+    padding: 8px 14px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .relay-btn {
+    background: #111;
+    border: 1px solid #2a2e32;
+    color: #444;
+    padding: 7px 18px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+  .relay-btn.on { color: #00e060; border-color: #00e060; box-shadow: 0 0 8px #00e0604a; }
+  .relay-btn:active { opacity: 0.6; }
+`,document.head.appendChild(_);async function v(){let[e,t]=await Promise.all([m(),h()]),n=document.createElement(`header`);n.innerHTML=`
+    <span class="title">Truck Gauge</span>
+    <span><span id="dot"></span><span id="status-text">connecting…</span></span>
+  `,document.body.appendChild(n);let r=document.createElement(`div`);r.className=`grid`,document.body.appendChild(r);let i=new Map;for(let{id:n}of g){let a=e.find(e=>e.id===n);if(!a)continue;let o=document.createElement(`div`);o.className=`cell`;let s=document.createElement(`pc-gauge`);o.appendChild(s),r.appendChild(o),s.configure(a,t),i.set(n,s)}let a=document.createElement(`footer`);a.innerHTML=`
+    <button class="relay-btn" id="btn-fan">Fan</button>
+    <button class="relay-btn" id="btn-light">Lights</button>
+  `,document.body.appendChild(a);let o={fan:!1,lights:!1};function s(e){o[e]=!o[e],document.getElementById(e===`fan`?`btn-fan`:`btn-light`).classList.toggle(`on`,o[e]),fetch(`/api/relay`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({relay:e,state:o[e]})}).catch(()=>{})}document.getElementById(`btn-fan`).addEventListener(`click`,()=>s(`fan`)),document.getElementById(`btn-light`).addEventListener(`click`,()=>s(`lights`));let c=document.getElementById(`dot`),l=document.getElementById(`status-text`),u=0;async function d(){try{let e=await(await fetch(`/api/sensors`)).json();u=0,c.className=`ok`,l.textContent=`live`;for(let{id:t,apiKey:n}of g){let r=i.get(t);r&&e[n]!==void 0&&(r.value=e[n])}document.getElementById(`btn-fan`).classList.toggle(`on`,!!e.relay_fan),document.getElementById(`btn-light`).classList.toggle(`on`,!!e.relay_light),o.fan=!!e.relay_fan,o.lights=!!e.relay_light}catch{u++,u>3&&(c.className=`err`,l.textContent=`no signal`)}}d(),setInterval(d,500)}v();</script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

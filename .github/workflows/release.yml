@@ -38,8 +38,8 @@ jobs:
           arduino-cli compile \
             --fqbn arduino:esp32:nano_nora \
             --output-dir firmware-build \
-            .
-          mv firmware-build/truck_gauge.ino.bin firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
+            BuckIfYouTruck.ino
+          mv firmware-build/BuckIfYouTruck.ino.bin firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
 
       # --- Build dashboard ---
       - name: Setup Node.js
