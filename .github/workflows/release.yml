@@ -1,0 +1,78 @@
+name: Build and Release
+
+# Runs when you push a tag like v1.0, v1.1, etc.
+# To create a release: git tag v1.0 && git push origin v1.0
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # --- Build firmware ---
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+
+      - name: Install ESP32 platform
+        run: |
+          arduino-cli config init
+          arduino-cli config add board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+          arduino-cli core update-index
+          arduino-cli core install arduino:esp32
+
+      - name: Install Arduino libraries
+        run: |
+          arduino-cli lib install "Adafruit ADS1X15"
+          arduino-cli lib install "WebSockets"
+
+      - name: Compile firmware
+        run: |
+          arduino-cli compile \
+            --fqbn arduino:esp32:nano_nora \
+            --output-dir firmware-build \
+            truck_gauge.ino
+          mv firmware-build/truck_gauge.ino.bin firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
+
+      # --- Build dashboard ---
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dashboard dependencies
+        run: npm ci
+        working-directory: dashboard-src
+
+      - name: Build dashboard
+        run: npm run build
+        working-directory: dashboard-src
+
+      - name: Zip dashboard
+        run: |
+          cd dashboard-src/dist
+          zip -r ../../firmware-build/BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip .
+
+      # --- Create GitHub Release ---
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "BuckIfYouTruck ${{ github.ref_name }}"
+          body: |
+            ## What's in this release
+
+            **Firmware** (`BuckIfYouTruck-${{ github.ref_name }}.bin`)
+            - Flash to the ESP32 via OTA at http://buckifyoutruck.local/update
+
+            **Dashboard** (`BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip`)
+            - Upload files to the device via http://buckifyoutruck.local/update
+
+          files: |
+            firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
+            firmware-build/BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip
