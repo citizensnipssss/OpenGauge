@@ -41,8 +41,8 @@ jobs:
           arduino-cli compile \
             --fqbn arduino:esp32:nano_nora \
             --output-dir firmware-build \
-            OpenGauge/OpenGauge.ino
-          mv firmware-build/OpenGauge.ino.bin firmware-build/OpenGauge-${{ github.ref_name }}.bin
+            BuckIfYouTruck/BuckIfYouTruck.ino
+          mv firmware-build/BuckIfYouTruck.ino.bin firmware-build/OpenGauge-${{ github.ref_name }}.bin
 
       # --- Build dashboard ---
       - name: Setup Node.js
