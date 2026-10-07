@@ -1,0 +1,13 @@
+{
+  "name": "Cummins Gauge Dashboard",
+  "short_name": "Gauge",
+  "description": "Live truck gauge dashboard for 2001 Dodge Ram 2500 5.9 Cummins",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#0b0e12",
+  "theme_color": "#0b0e12",
+  "orientation": "any",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "orientationBehavior": "adaptive",
+  "fitPolicy": {
+    "drivingLayouts": "fit-viewport",
+    "diagnosticLayouts": ["fit-all", "readable-scroll"],
+    "defaultDiagnosticMode": "fit-all",
+    "minimumReadableSlotPx": 92,
+    "slotAspectRatio": 1,
+    "gapCss": "clamp(8px, 2vw, 14px)",
+    "safePaddingCss": "max(10px, env(safe-area-inset-top), env(safe-area-inset-right), env(safe-area-inset-bottom), env(safe-area-inset-left))"
+  },
+  "geometryModel": {
+    "type": "unit-grid",
+    "description": "Each orientation defines a logical grid. Slot x/y/w/h are geometry only. w and h should match for square gauge tiles. Runtime computes the largest base unit that fits the usable viewport, then centers the resulting composition.",
+    "baseUnitFormula": "min((usableWidth - gap*(columns-1))/columns, (usableHeight - gap*(rows-1))/rows)",
+    "slotPixelWidthFormula": "w*baseUnit + (w-1)*gap",
+    "slotPixelHeightFormula": "h*baseUnit + (h-1)*gap"
+  },
+  "layouts": [
+    {
+      "layoutId": "hero-single",
+      "name": "Hero",
+      "slotCount": 1,
+      "drivingRecommended": true,
+      "portrait": {
+        "columns": 1,
+        "rows": 1,
+        "slots": [{"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "hero"}]
+      },
+      "landscape": {
+        "columns": 1,
+        "rows": 1,
+        "slots": [{"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "hero"}]
+      },
+      "rationale": "Maximum glance readability for one critical channel."
+    },
+    {
+      "layoutId": "dual-focus",
+      "name": "Dual",
+      "slotCount": 2,
+      "drivingRecommended": true,
+      "portrait": {
+        "columns": 1,
+        "rows": 2,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "large"},
+          {"slotId": "slot-2", "x": 0, "y": 1, "w": 1, "h": 1, "sizeClass": "large"}
+        ]
+      },
+      "landscape": {
+        "columns": 2,
+        "rows": 1,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "large"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "large"}
+        ]
+      },
+      "rationale": "Two critical channels remain large enough for immediate recognition while driving."
+    },
+    {
+      "layoutId": "quad-primary",
+      "name": "Four Gauge",
+      "slotCount": 4,
+      "drivingRecommended": true,
+      "portrait": {
+        "columns": 2,
+        "rows": 2,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "normal"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "normal"},
+          {"slotId": "slot-3", "x": 0, "y": 1, "w": 1, "h": 1, "sizeClass": "normal"},
+          {"slotId": "slot-4", "x": 1, "y": 1, "w": 1, "h": 1, "sizeClass": "normal"}
+        ]
+      },
+      "landscape": {
+        "columns": 4,
+        "rows": 1,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "normal"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "normal"},
+          {"slotId": "slot-3", "x": 2, "y": 0, "w": 1, "h": 1, "sizeClass": "normal"},
+          {"slotId": "slot-4", "x": 3, "y": 0, "w": 1, "h": 1, "sizeClass": "normal"}
+        ]
+      },
+      "rationale": "Default everyday truck view: useful breadth without sacrificing glance readability."
+    },
+    {
+      "layoutId": "hero-plus-four",
+      "name": "Hero + Four",
+      "slotCount": 5,
+      "drivingRecommended": true,
+      "portrait": {
+        "columns": 2,
+        "rows": 4,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 2, "h": 2, "sizeClass": "hero"},
+          {"slotId": "slot-2", "x": 0, "y": 2, "w": 1, "h": 1, "sizeClass": "mini"},
+          {"slotId": "slot-3", "x": 1, "y": 2, "w": 1, "h": 1, "sizeClass": "mini"},
+          {"slotId": "slot-4", "x": 0, "y": 3, "w": 1, "h": 1, "sizeClass": "mini"},
+          {"slotId": "slot-5", "x": 1, "y": 3, "w": 1, "h": 1, "sizeClass": "mini"}
+        ]
+      },
+      "landscape": {
+        "columns": 4,
+        "rows": 2,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 2, "h": 2, "sizeClass": "hero"},
+          {"slotId": "slot-2", "x": 2, "y": 0, "w": 1, "h": 1, "sizeClass": "mini"},
+          {"slotId": "slot-3", "x": 3, "y": 0, "w": 1, "h": 1, "sizeClass": "mini"},
+          {"slotId": "slot-4", "x": 2, "y": 1, "w": 1, "h": 1, "sizeClass": "mini"},
+          {"slotId": "slot-5", "x": 3, "y": 1, "w": 1, "h": 1, "sizeClass": "mini"}
+        ]
+      },
+      "rationale": "One primary channel gets dominant visual weight while four supporting values stay visible."
+    },
+    {
+      "layoutId": "eight-gauge",
+      "name": "Eight Gauge",
+      "slotCount": 8,
+      "drivingRecommended": true,
+      "portrait": {
+        "columns": 2,
+        "rows": 4,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-3", "x": 0, "y": 1, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-4", "x": 1, "y": 1, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-5", "x": 0, "y": 2, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-6", "x": 1, "y": 2, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-7", "x": 0, "y": 3, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-8", "x": 1, "y": 3, "w": 1, "h": 1, "sizeClass": "compact"}
+        ]
+      },
+      "landscape": {
+        "columns": 4,
+        "rows": 2,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-3", "x": 2, "y": 0, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-4", "x": 3, "y": 0, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-5", "x": 0, "y": 1, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-6", "x": 1, "y": 1, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-7", "x": 2, "y": 1, "w": 1, "h": 1, "sizeClass": "compact"},
+          {"slotId": "slot-8", "x": 3, "y": 1, "w": 1, "h": 1, "sizeClass": "compact"}
+        ]
+      },
+      "rationale": "Broad system awareness for towing or powertrain monitoring while retaining usable gauge size."
+    },
+    {
+      "layoutId": "diagnostic-eleven",
+      "name": "All Gauges",
+      "slotCount": 11,
+      "drivingRecommended": false,
+      "portrait": {
+        "columns": 3,
+        "rows": 4,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-3", "x": 2, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-4", "x": 0, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-5", "x": 1, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-6", "x": 2, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-7", "x": 0, "y": 2, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-8", "x": 1, "y": 2, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-9", "x": 2, "y": 2, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-10", "x": 0, "y": 3, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-11", "x": 1, "y": 3, "w": 1, "h": 1, "sizeClass": "diagnostic"}
+        ]
+      },
+      "landscape": {
+        "columns": 6,
+        "rows": 2,
+        "slots": [
+          {"slotId": "slot-1", "x": 0, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-2", "x": 1, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-3", "x": 2, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-4", "x": 3, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-5", "x": 4, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-6", "x": 5, "y": 0, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-7", "x": 0, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-8", "x": 1, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-9", "x": 2, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-10", "x": 3, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"},
+          {"slotId": "slot-11", "x": 4, "y": 1, "w": 1, "h": 1, "sizeClass": "diagnostic"}
+        ]
+      },
+      "rationale": "Shows all available channels for stationary diagnostics, setup, or tuning; not intended as the primary driving layout."
+    }
+  ]
+}

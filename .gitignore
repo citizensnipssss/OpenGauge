@@ -1,6 +1,8 @@
 build/
 dashboard-src/node_modules/
 dashboard-src/dist/
+dashboard/node_modules/
+dashboard/dist/
 *.bin
 *.elf
 *.map

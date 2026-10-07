@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "notes": "Illustrative four-gauge dashboard using the approved layout registry.",
+  "layoutId": "quad-primary",
+  "themeId": "performance_chrome",
+  "themeOverrides": {
+    "activeColor": "#ff9700",
+    "warningColor": "#e62929",
+    "digitColor": "#ff6a00",
+    "glow": 1.0
+  },
+  "slots": [
+    {
+      "slotId": "slot-1",
+      "channelId": "boost",
+      "overrides": {}
+    },
+    {
+      "slotId": "slot-2",
+      "channelId": "egt",
+      "overrides": {}
+    },
+    {
+      "slotId": "slot-3",
+      "channelId": "fuel_pressure",
+      "overrides": {}
+    },
+    {
+      "slotId": "slot-4",
+      "channelId": "trans_temp",
+      "overrides": {}
+    }
+  ]
+}

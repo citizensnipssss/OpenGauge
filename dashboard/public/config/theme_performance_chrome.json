@@ -1,0 +1,32 @@
+{
+  "id": "performance_chrome",
+  "name": "Performance Chrome",
+  "colors": {
+    "active": "#ff9700",
+    "warning": "#e62929",
+    "digits": "#ff6a00"
+  },
+  "geometry": {
+    "viewBox": [0, 0, 1000, 1000],
+    "arcStartDeg": -124,
+    "arcEndDeg": 124,
+    "segments": 34,
+    "segmentOuterRadius": 344,
+    "segmentInnerRadius": 306,
+    "segmentHalfAngleDeg": 3.15,
+    "majorTickOuterRadius": 282,
+    "majorTickInnerRadius": 261,
+    "minorTickOuterRadius": 288,
+    "minorTickInnerRadius": 272,
+    "scaleLabelRadius": 236
+  },
+  "display": {
+    "outer": { "x": 322, "y": 398, "width": 356, "height": 185, "rx": 21 },
+    "inner": { "x": 335, "y": 411, "width": 330, "height": 159, "rx": 15 }
+  },
+  "lowerIdentity": {
+    "showIcon": false,
+    "accentLine": true,
+    "label": true
+  }
+}

@@ -52,15 +52,15 @@ jobs:
 
       - name: Install dashboard dependencies
         run: npm ci
-        working-directory: dashboard-src
+        working-directory: dashboard
 
       - name: Build dashboard
         run: npm run build
-        working-directory: dashboard-src
+        working-directory: dashboard
 
       - name: Zip dashboard
         run: |
-          zip -r firmware-build/OpenGauge-dashboard-${{ github.ref_name }}.zip dashboard-dist/
+          zip -r firmware-build/OpenGauge-dashboard-${{ github.ref_name }}.zip dashboard/dist/
 
       # --- Create GitHub Release ---
       - name: Create Release
