@@ -41,7 +41,7 @@ Built with TypeScript, Web Components, and SVG. No framework. Served directly fr
 - Performance Chrome theme
 - Works as a PWA — add to home screen for fullscreen display on your phone
 
-Connect to the `TruckGauge` WiFi AP, open `http://buckifyoutruck.local` (or `192.168.4.1`), and you're in.
+Connect to the `TruckGauge` WiFi AP, open `http://192.168.4.1` (or your custom hostname), and you're in. The WiFi SSID and mDNS hostname are set in the sketch — change them to whatever you want.
 
 ---
 
@@ -60,7 +60,7 @@ To adapt it for your truck:
 ## Releases
 
 Each [release](https://github.com/citizensnipssss/OpenGauge/releases) includes:
-- **Firmware** `.bin` — flash to the ESP32 via OTA at `http://buckifyoutruck.local/update`
+- **Firmware** `.bin` — flash to the ESP32 via OTA at `http://opengauge.local/update`
 - **Dashboard** `.zip` — upload to the device via the same page
 
 No need to install Arduino IDE or Node.js to update an existing install.
