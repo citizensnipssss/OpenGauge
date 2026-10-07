@@ -25,7 +25,7 @@ $ErrorActionPreference = "Stop"
 # --- Config ---
 $DeviceHost     = "buckifyoutruck.local"
 $DeviceIP       = "192.168.4.1"
-$SketchPath     = "$PSScriptRoot\BuckIfYouTruck.ino"
+$SketchPath     = "$PSScriptRoot\BuckIfYouTruck\BuckIfYouTruck.ino"
 $BuildDir       = "$PSScriptRoot\build"
 $DashboardSrc   = "$PSScriptRoot\dashboard-src"
 $DashboardDist  = "$PSScriptRoot\dashboard-src\dist"
