@@ -41,8 +41,8 @@ jobs:
           arduino-cli compile \
             --fqbn arduino:esp32:nano_nora \
             --output-dir firmware-build \
-            BuckIfYouTruck/BuckIfYouTruck.ino
-          mv firmware-build/BuckIfYouTruck.ino.bin firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
+            OpenGauge/OpenGauge.ino
+          mv firmware-build/OpenGauge.ino.bin firmware-build/OpenGauge-${{ github.ref_name }}.bin
 
       # --- Build dashboard ---
       - name: Setup Node.js
@@ -60,22 +60,22 @@ jobs:
 
       - name: Zip dashboard
         run: |
-          zip -r firmware-build/BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip dashboard-dist/
+          zip -r firmware-build/OpenGauge-dashboard-${{ github.ref_name }}.zip dashboard-dist/
 
       # --- Create GitHub Release ---
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "BuckIfYouTruck ${{ github.ref_name }}"
+          name: "OpenGauge ${{ github.ref_name }}"
           body: |
             ## What's in this release
 
-            **Firmware** (`BuckIfYouTruck-${{ github.ref_name }}.bin`)
+            **Firmware** (`OpenGauge-${{ github.ref_name }}.bin`)
             - Flash to the ESP32 via OTA at http://buckifyoutruck.local/update
 
-            **Dashboard** (`BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip`)
+            **Dashboard** (`OpenGauge-dashboard-${{ github.ref_name }}.zip`)
             - Upload files to the device via http://buckifyoutruck.local/update
 
           files: |
-            firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
-            firmware-build/BuckIfYouTruck-dashboard-${{ github.ref_name }}.zip
+            firmware-build/OpenGauge-${{ github.ref_name }}.bin
+            firmware-build/OpenGauge-dashboard-${{ github.ref_name }}.zip
