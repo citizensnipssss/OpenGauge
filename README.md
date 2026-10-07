@@ -41,7 +41,7 @@ Built with TypeScript, Web Components, and SVG. No framework. Served directly fr
 - Performance Chrome theme
 - Works as a PWA — add to home screen for fullscreen display on your phone
 
-Connect to the `TruckGauge` WiFi AP, open `http://192.168.4.1` (or your custom hostname), and you're in. The WiFi SSID and mDNS hostname are set in the sketch — change them to whatever you want.
+Connect to the `OpenGauge` WiFi AP, open `http://192.168.4.1` (or your custom hostname), and you're in. The WiFi SSID and mDNS hostname are set in the sketch — change them to whatever you want.
 
 ---
 

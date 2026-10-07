@@ -53,7 +53,7 @@
 #define RELAY_LIGHT D3
 
 // --- WiFi ---
-const char* AP_SSID = "TruckGauge";
+const char* AP_SSID = "OpenGauge";
 const char* AP_PASS = "";   // open network
 
 // --- Sensor objects ---
