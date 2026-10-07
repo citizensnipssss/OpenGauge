@@ -41,7 +41,7 @@ jobs:
           arduino-cli compile \
             --fqbn arduino:esp32:nano_nora \
             --output-dir firmware-build \
-            BuckIfYouTruck.ino
+            BuckIfYouTruck/BuckIfYouTruck.ino
           mv firmware-build/BuckIfYouTruck.ino.bin firmware-build/BuckIfYouTruck-${{ github.ref_name }}.bin
 
       # --- Build dashboard ---
