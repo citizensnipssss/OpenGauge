@@ -1,0 +1,49 @@
+{
+  "id": "bebop_2071",
+  "name": "Bebop 2071",
+  "colors": {
+    "active": "#E7B64A",
+    "warning": "#D34430",
+    "digits": "#4EAAA5"
+  },
+  "geometry": {
+    "viewBox": [
+      0,
+      0,
+      1000,
+      1000
+    ],
+    "arcStartDeg": -128,
+    "arcEndDeg": 128,
+    "segments": 42,
+    "segmentOuterRadius": 344,
+    "segmentInnerRadius": 316,
+    "segmentHalfAngleDeg": 2.7,
+    "majorTickOuterRadius": 296,
+    "majorTickInnerRadius": 279,
+    "minorTickOuterRadius": 294,
+    "minorTickInnerRadius": 284,
+    "scaleLabelRadius": 255
+  },
+  "display": {
+    "outer": {
+      "x": 310,
+      "y": 398,
+      "width": 380,
+      "height": 190,
+      "rx": 4
+    },
+    "inner": {
+      "x": 321,
+      "y": 409,
+      "width": 358,
+      "height": 168,
+      "rx": 2
+    }
+  },
+  "lowerIdentity": {
+    "showIcon": false,
+    "accentLine": true,
+    "label": true
+  }
+}
