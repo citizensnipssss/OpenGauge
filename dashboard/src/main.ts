@@ -4,7 +4,7 @@ import './components/dashboard-view/dashboard-view';
 import type { LayoutPicker } from './components/layout-picker/layout-picker';
 import type { ThemePicker } from './components/theme-picker/theme-picker';
 import type { DashboardView } from './components/dashboard-view/dashboard-view';
-import { loadGaugeRegistry, loadTheme } from './registry/gauges';
+import { loadGaugeRegistry, loadThemes } from './registry/gauges';
 import { loadLayoutRegistry } from './registry/layouts';
 import { DashboardConfigStore } from './store/dashboardConfig';
 import type { DashboardConfig } from './registry/types';
@@ -32,13 +32,13 @@ function mountScreen(el: HTMLElement) {
 }
 
 async function main() {
-  const [gauges, theme, layoutRegistry] = await Promise.all([
+  const [gauges, themes, layoutRegistry] = await Promise.all([
     loadGaugeRegistry(),
-    loadTheme(),
+    loadThemes(),
     loadLayoutRegistry(),
   ]);
   const store = new DashboardConfigStore({ gauges, layouts: layoutRegistry });
-  const deps = { gauges, theme, layoutRegistry };
+  const getDeps = (themeId: string) => ({ gauges, theme: themes.find(t => t.id === themeId) ?? themes[0], layoutRegistry });
 
   function showLayoutPicker() {
     const wrap = document.createElement('div');
@@ -65,10 +65,13 @@ async function main() {
     const picker = document.createElement('theme-picker') as ThemePicker;
     wrap.appendChild(picker);
     mountScreen(wrap);
-    picker.configure([theme]);
+    picker.configure(themes);
     picker.addEventListener('theme-selected', (e) => {
       const { themeId } = (e as CustomEvent).detail;
-      const config = store.startNew(layoutId, themeId);
+      const existing = store.current;
+      const config = existing && existing.layoutId === layoutId
+        ? store.setTheme(themeId)
+        : store.startNew(layoutId, themeId);
       showDashboard(config);
     });
   }
@@ -76,7 +79,7 @@ async function main() {
   function showDashboard(config: DashboardConfig) {
     const view = document.createElement('dashboard-view') as DashboardView;
     mountScreen(view);
-    view.configure(deps, config);
+    view.configure(getDeps(config.themeId), config);
 
     view.addEventListener('channel-assigned', (e) => {
       const { slotId, channelId } = (e as CustomEvent).detail;
