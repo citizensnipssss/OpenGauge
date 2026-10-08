@@ -237,8 +237,8 @@ export class PcGauge extends HTMLElement {
 
       const off = document.createElementNS(SVG_NS, 'path');
       off.setAttribute('d', d);
-      off.setAttribute('fill', '#b9bec2');
-      off.setAttribute('opacity', '.78');
+      off.setAttribute('fill', this.theme.id === 'bebop_2071' ? '#22323A' : '#b9bec2');
+      off.setAttribute('opacity', this.theme.id === 'bebop_2071' ? '.95' : '.78');
       off.setAttribute('stroke', '#2c2f31');
       off.setAttribute('stroke-width', '2');
       this.elOff.appendChild(off);
@@ -279,7 +279,7 @@ export class PcGauge extends HTMLElement {
       line.setAttribute('y1', String(y1));
       line.setAttribute('x2', String(x2));
       line.setAttribute('y2', String(y2));
-      line.setAttribute('stroke', major ? '#f1f3f5' : '#7f858b');
+      line.setAttribute('stroke', this.theme.id === 'bebop_2071' ? (major ? '#E7B64A' : '#4EAAA5') : (major ? '#f1f3f5' : '#7f858b'));
       line.setAttribute('stroke-width', major ? '5' : '2');
       line.setAttribute('stroke-linecap', 'round');
       this.elTicks.appendChild(line);
@@ -291,7 +291,7 @@ export class PcGauge extends HTMLElement {
       const text = document.createElementNS(SVG_NS, 'text');
       text.setAttribute('x', String(x));
       text.setAttribute('y', String(y + 7));
-      text.setAttribute('fill', '#f4f5f7');
+      text.setAttribute('fill', this.theme.id === 'bebop_2071' ? '#EEE4CB' : '#f4f5f7');
       text.setAttribute('font-size', '31');
       text.setAttribute('font-weight', '700');
       text.setAttribute('text-anchor', 'middle');
@@ -385,6 +385,7 @@ export class PcGauge extends HTMLElement {
     const t = this.theme;
     const u = this.uid;
     const [, , w, h] = t.geometry.viewBox;
+    const bebop = t.id === 'bebop_2071';
     const svg = document.createElementNS(SVG_NS, 'svg') as SVGSVGElement;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
     svg.setAttribute('role', 'img');
@@ -435,23 +436,24 @@ export class PcGauge extends HTMLElement {
           <feGaussianBlur stdDeviation="4.1" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <circle cx="500" cy="500" r="472" fill="#080909" filter="url(#softShadow-${u})"/>
-      <circle cx="500" cy="500" r="455" fill="url(#bezelOuter-${u})" stroke="#f4f5f6" stroke-width="4"/>
-      <circle cx="500" cy="500" r="414" fill="url(#bezelInner-${u})" stroke="#1a1c1e" stroke-width="7"/>
-      <circle cx="500" cy="500" r="383" fill="url(#faceGrad-${u})" stroke="#090a0b" stroke-width="3"/>
-      <circle cx="500" cy="500" r="372" fill="url(#carbon-${u})" opacity=".78"/>
-      <circle cx="500" cy="500" r="360" fill="rgba(0,0,0,.42)"/>
+      <circle cx="500" cy="500" r="472" fill="${bebop ? '#080e13' : '#080909'}" filter="url(#softShadow-${u})"/>
+      <circle cx="500" cy="500" r="455" fill="${bebop ? '#17232a' : `url(#bezelOuter-${u})`}" stroke="${bebop ? '#E7B64A' : '#f4f5f6'}" stroke-width="${bebop ? 8 : 4}"/>
+      <circle cx="500" cy="500" r="414" fill="${bebop ? '#0A141B' : `url(#bezelInner-${u})`}" stroke="${bebop ? '#D34430' : '#1a1c1e'}" stroke-width="${bebop ? 6 : 7}"/>
+      <circle cx="500" cy="500" r="383" fill="${bebop ? '#101820' : `url(#faceGrad-${u})`}" stroke="#090a0b" stroke-width="3"/>
+      ${bebop ? `<circle cx="500" cy="500" r="373" fill="none" stroke="#4EAAA5" stroke-width="2" stroke-dasharray="6 18" opacity=".55"/>` : `<circle cx="500" cy="500" r="372" fill="url(#carbon-${u})" opacity=".78"/>`}
+      <circle cx="500" cy="500" r="360" fill="rgba(0,0,0,${bebop ? '.08' : '.42'})"/>
+      ${bebop ? `<text x="500" y="207" text-anchor="middle" fill="#E7B64A" font-size="23" font-family="monospace" letter-spacing="6">BEBOP // 2071</text><path d="M180 502h70 M750 502h70" stroke="#D34430" stroke-width="8"/><text x="500" y="868" text-anchor="middle" fill="#4EAAA5" font-size="18" font-family="monospace" letter-spacing="4">SEE YOU SPACE COWBOY</text>` : ''}
       <g id="offSegments-${u}"></g>
       <g id="liveSegments-${u}" filter="url(#segmentGlow-${u})"></g>
       <g id="ticks-${u}"></g>
       <g id="labels-${u}"></g>
-      <rect x="${t.display.outer.x}" y="${t.display.outer.y}" width="${t.display.outer.width}" height="${t.display.outer.height}" rx="${t.display.outer.rx}" fill="#050607" stroke="#24282c" stroke-width="5"/>
-      <rect x="${t.display.inner.x}" y="${t.display.inner.y}" width="${t.display.inner.width}" height="${t.display.inner.height}" rx="${t.display.inner.rx}" fill="url(#lcdGrad-${u})" stroke="#090b0d" stroke-width="3"/>
+      <rect x="${t.display.outer.x}" y="${t.display.outer.y}" width="${t.display.outer.width}" height="${t.display.outer.height}" rx="${t.display.outer.rx}" fill="${bebop ? '#E7B64A' : '#050607'}" stroke="${bebop ? '#D34430' : '#24282c'}" stroke-width="5"/>
+      <rect x="${t.display.inner.x}" y="${t.display.inner.y}" width="${t.display.inner.width}" height="${t.display.inner.height}" rx="${t.display.inner.rx}" fill="${bebop ? '#061015' : `url(#lcdGrad-${u})`}" stroke="#090b0d" stroke-width="3"/>
       <g id="digits-${u}"></g>
       <g id="overlay-${u}"></g>
-      <text id="unitText-${u}" x="500" y="625" fill="#e5e8eb" font-size="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">${this.def.unit}</text>
+      <text id="unitText-${u}" x="500" y="625" fill="${bebop ? '#EEE4CB' : '#e5e8eb'}" font-size="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">${this.def.unit}</text>
       ${t.lowerIdentity.accentLine ? `<line id="accentLine-${u}" x1="430" y1="730" x2="570" y2="730" stroke="${t.colors.active}" stroke-width="6" stroke-linecap="round"/>` : ''}
-      ${t.lowerIdentity.label ? `<text id="labelText-${u}" x="500" y="790" fill="#f4f5f7" font-size="48" font-weight="800" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="3">${this.def.label}</text>` : ''}
+      ${t.lowerIdentity.label ? `<text id="labelText-${u}" x="500" y="790" fill="${bebop ? '#EEE4CB' : '#f4f5f7'}" font-size="48" font-weight="800" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="3">${this.def.label}</text>` : ''}
     `;
     return svg;
   }
