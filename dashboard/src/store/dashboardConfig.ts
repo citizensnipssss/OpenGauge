@@ -95,6 +95,13 @@ export class DashboardConfigStore {
     return config;
   }
 
+  setTheme(themeId: string): DashboardConfig {
+    if (!this.config) throw new Error('No active dashboard config');
+    const next = { ...this.config, themeId, themeOverrides: undefined };
+    this.save(next);
+    return next;
+  }
+
   assignChannel(slotId: string, channelId: string | null): DashboardConfig {
     if (!this.config) throw new Error('No active dashboard config');
     const slots = this.config.slots.map((s) => (s.slotId === slotId ? { ...s, channelId } : s));
