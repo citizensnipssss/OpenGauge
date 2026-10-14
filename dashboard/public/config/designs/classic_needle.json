@@ -1,0 +1,63 @@
+{
+  "schema": "opengauge-design/1",
+  "id": "classic_needle",
+  "name": "Classic Needle",
+  "colors": {
+    "active": "#ffffff",
+    "warning": "#e62929",
+    "digits": "#ffffff",
+    "off": "#9aa0a6",
+    "text": "#f4f5f7",
+    "tickMajor": "#ffffff",
+    "tickMinor": "#9aa0a6"
+  },
+  "glow": false,
+  "frame": {
+    "style": "chrome",
+    "shape": "round",
+    "face": "matte",
+    "faceColor": "#101214"
+  },
+  "indicator": {
+    "type": "needle",
+    "startDeg": -135,
+    "endDeg": 135,
+    "radius": 330,
+    "length": 318,
+    "width": 22,
+    "tail": 60,
+    "hubRadius": 40,
+    "color": "#ff3b1f",
+    "zoneBand": true
+  },
+  "scale": {
+    "show": true,
+    "offset": 10,
+    "majorLength": 34,
+    "minorLength": 18,
+    "labelGap": 30,
+    "labelSize": 36
+  },
+  "readout": {
+    "show": true,
+    "style": "segment",
+    "x": 500,
+    "y": 705,
+    "size": 0.42,
+    "box": true,
+    "warnColor": true
+  },
+  "unit": {
+    "show": true,
+    "x": 500,
+    "y": 625,
+    "size": 28
+  },
+  "label": {
+    "show": true,
+    "x": 500,
+    "y": 830,
+    "size": 40,
+    "accentLine": false
+  }
+}

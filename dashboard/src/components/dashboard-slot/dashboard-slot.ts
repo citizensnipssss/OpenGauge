@@ -1,6 +1,7 @@
 import '../pc-gauge/pc-gauge';
 import type { PcGauge } from '../pc-gauge/pc-gauge';
-import type { GaugeDefinition, LayoutSlotGeometry, ThemeConfig, DashboardSlotConfig } from '../../registry/types';
+import type { GaugeDefinition, LayoutSlotGeometry, DashboardSlotConfig } from '../../registry/types';
+import type { GaugeDesign } from '../../design/types';
 import type { TelemetryStore } from '../../telemetry/TelemetryStore';
 
 /** Merge slot overrides onto a GaugeDefinition without mutating the registry copy. */
@@ -32,6 +33,8 @@ export class DashboardSlot extends HTMLElement {
   private slotId = '';
   private store: TelemetryStore | null = null;
   private pressTimer: ReturnType<typeof setTimeout> | null = null;
+  private longPressFired = false;
+  private pressStart: { x: number; y: number } | null = null;
 
   constructor() {
     super();
@@ -44,8 +47,11 @@ export class DashboardSlot extends HTMLElement {
     // Long-press detection — pointer events work for both touch and mouse
     this.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 && e.pointerType === 'mouse') return;
+      this.longPressFired = false;
+      this.pressStart = { x:e.clientX, y:e.clientY };
       this.pressTimer = setTimeout(() => {
         this.pressTimer = null;
+        this.longPressFired = true;
         this.dispatchEvent(new CustomEvent('slot-long-pressed', {
           detail: { slotId: this.slotId }, bubbles: true, composed: true,
         }));
@@ -61,11 +67,13 @@ export class DashboardSlot extends HTMLElement {
 
     this.addEventListener('pointerup', cancelPress);
     this.addEventListener('pointercancel', cancelPress);
-    this.addEventListener('pointermove', cancelPress);
+    this.addEventListener('pointermove', (e) => {
+      if (this.pressStart && Math.hypot(e.clientX-this.pressStart.x,e.clientY-this.pressStart.y)>10) cancelPress();
+    });
 
     this.addEventListener('click', () => {
       // Only fire tap if long-press did not already fire
-      if (this.pressTimer !== null || document.getSelection()?.toString()) return;
+      if (this.longPressFired || this.pressTimer !== null || document.getSelection()?.toString()) return;
       this.dispatchEvent(new CustomEvent('slot-activated', {
         detail: { slotId: this.slotId }, bubbles: true, composed: true,
       }));
@@ -84,15 +92,15 @@ export class DashboardSlot extends HTMLElement {
   // or the active theme changes.
   setContent(
     gaugeDef: GaugeDefinition | null,
-    theme: ThemeConfig | null,
+    design: GaugeDesign | null,
     store: TelemetryStore | null = null,
     overrides: DashboardSlotConfig['overrides'] = {},
   ) {
     this.store = store;
-    this.render(gaugeDef ? applyOverrides(gaugeDef, overrides) : null, theme);
+    this.render(gaugeDef ? applyOverrides(gaugeDef, overrides) : null, design);
   }
 
-  private render(gaugeDef: GaugeDefinition | null, theme: ThemeConfig | null) {
+  private render(gaugeDef: GaugeDefinition | null, design: GaugeDesign | null) {
     const root = this.shadowRoot!;
     root.innerHTML = `
       <style>
@@ -107,10 +115,10 @@ export class DashboardSlot extends HTMLElement {
         pc-gauge { display:block; width:100%; height:100%; }
       </style>
     `;
-    if (gaugeDef && theme) {
+    if (gaugeDef && design) {
       const gauge = document.createElement('pc-gauge') as PcGauge;
       root.appendChild(gauge);
-      gauge.configure(gaugeDef, theme);
+      gauge.configure(gaugeDef, design);
       if (this.store) gauge.connectStore(this.store);
     } else {
       const empty = document.createElement('div');

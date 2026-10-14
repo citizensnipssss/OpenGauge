@@ -22,11 +22,15 @@ export class TelemetryStore {
 
   publishStatus(key: string, status: TelemetrySample['status']) {
     const existing = this.samples.get(key);
-    const value = existing?.value ?? 0;
-    this.publish(key, value, status);
+    // Status cannot invent a numeric reading or refresh its timestamp.
+    const sample:TelemetrySample = {value:existing?.value ?? NaN, status:status==='good' && !existing ? 'unavailable' : status, ts:existing?.ts ?? 0};
+    this.samples.set(key,sample);
+    this.channelListeners.get(key)?.forEach(fn=>fn(key,sample));
+    this.wildcardListeners.forEach(fn=>fn(key,sample));
   }
 
   setConnectionStatus(status: ConnectionStatus) {
+    if (status === this._connectionStatus) return;
     this._connectionStatus = status;
     this.connectionListeners.forEach((fn) => fn(status));
   }

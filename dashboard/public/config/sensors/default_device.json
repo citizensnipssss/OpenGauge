@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "revision": 0,
+  "boards": [
+    {
+      "id": "ads-main",
+      "type": "ads1115",
+      "connection": {
+        "type": "i2c",
+        "bus": "Wire",
+        "address": 72
+      }
+    },
+    {
+      "id": "mcp-main",
+      "type": "mcp9601",
+      "connection": {
+        "type": "i2c",
+        "bus": "Wire",
+        "address": 103
+      }
+    }
+  ],
+  "sensors": [
+    {
+      "id": "fuel",
+      "boardId": "ads-main",
+      "input": 0,
+      "channel": "fuel_pressure",
+      "enabled": true,
+      "dividerRatio": 0.6,
+      "offset": 0,
+      "profile": {
+        "schema": "opengauge-sensor/1",
+        "manufacturer": "",
+        "model": "",
+        "kind": "linear-voltage",
+        "unit": "PSI",
+        "evidence": "unverified",
+        "supplyVoltage": 5,
+        "notes": "Owner confirms fuel is connected on ADS1115 A0 through the same divider design as boost A1. Sender manufacturer, model and pressure calibration remain unverified.",
+        "sources": [],
+        "pinout": "Verify the manufacturer pinout before wiring.",
+        "calibrated": false,
+        "inputMin": 0.5,
+        "inputMax": 4.5,
+        "outputMin": 0,
+        "outputMax": 25,
+        "validMin": 0.3,
+        "validMax": 4.75,
+        "r25": 10000,
+        "beta": 3950,
+        "referenceResistance": 10000,
+        "referenceVoltage": 3.3,
+        "id": "pressure-25psi-05-45v",
+        "name": "0\u201325 PSI / 0.5\u20134.5 V pressure sender"
+      }
+    },
+    {
+      "id": "boost",
+      "boardId": "ads-main",
+      "input": 1,
+      "channel": "boost",
+      "enabled": true,
+      "dividerRatio": 0.6,
+      "offset": 0,
+      "profile": {
+        "schema": "opengauge-sensor/1",
+        "manufacturer": "FASTROHY",
+        "model": "",
+        "kind": "linear-voltage",
+        "unit": "PSI",
+        "evidence": "unverified",
+        "supplyVoltage": 5,
+        "notes": "Owner confirms A1 is now wired through the same divider as fuel A0. The earlier direct-input bench-test offset is obsolete; default offset is 0 PSI. Exact sender specifications remain unverified.",
+        "sources": [],
+        "pinout": "Verify the manufacturer pinout before wiring.",
+        "calibrated": false,
+        "inputMin": 0.5,
+        "inputMax": 4.5,
+        "outputMin": 0,
+        "outputMax": 60,
+        "validMin": 0.3,
+        "validMax": 4.75,
+        "r25": 10000,
+        "beta": 3950,
+        "referenceResistance": 10000,
+        "referenceVoltage": 3.3,
+        "id": "fastrohy-60psi-05-45v",
+        "name": "FASTROHY 0\u201360 PSI pressure sender"
+      }
+    },
+    {
+      "id": "trans",
+      "boardId": "ads-main",
+      "input": 2,
+      "channel": "trans_temp",
+      "enabled": false,
+      "dividerRatio": 1,
+      "offset": 0,
+      "profile": {
+        "schema": "opengauge-sensor/1",
+        "manufacturer": "",
+        "model": "",
+        "kind": "thermistor-beta",
+        "unit": "\u00b0F",
+        "evidence": "unverified",
+        "supplyVoltage": 3.3,
+        "notes": "R25=10k and Beta=3950 are placeholders, not measured specifications for the truck sender. Measure/calibrate and create a new profile before enabling. Reference resistor pulls up to 3.3 V, NTC goes to ground.",
+        "sources": [],
+        "pinout": "Verify the manufacturer pinout before wiring.",
+        "calibrated": false,
+        "inputMin": 0.01,
+        "inputMax": 3.29,
+        "outputMin": -40,
+        "outputMax": 400,
+        "validMin": 0.001,
+        "validMax": 3.299,
+        "r25": 10000,
+        "beta": 3950,
+        "referenceResistance": 10000,
+        "referenceVoltage": 3.3,
+        "id": "ntc-uncalibrated-placeholder",
+        "name": "Uncalibrated NTC placeholder \u2014 do not enable"
+      }
+    },
+    {
+      "id": "egt",
+      "boardId": "mcp-main",
+      "input": 0,
+      "channel": "egt",
+      "enabled": true,
+      "dividerRatio": 1,
+      "offset": 0,
+      "profile": {
+        "schema": "opengauge-sensor/1",
+        "manufacturer": "",
+        "model": "",
+        "kind": "thermocouple-k",
+        "unit": "\u00b0F",
+        "evidence": "unverified",
+        "supplyVoltage": 0,
+        "notes": "MCP9601 converts K-type hot-junction temperature in \u00b0C; this profile converts it to \u00b0F. Thermocouple manufacturer, mounting, and whole-system accuracy are not verified. Sensor configuration must remain type K.",
+        "sources": [],
+        "pinout": "Verify the manufacturer pinout before wiring.",
+        "calibrated": false,
+        "inputMin": 0,
+        "inputMax": 1,
+        "outputMin": -328,
+        "outputMax": 2462,
+        "validMin": 0,
+        "validMax": 1,
+        "r25": 10000,
+        "beta": 3950,
+        "referenceResistance": 10000,
+        "referenceVoltage": 3.3,
+        "id": "k-type-mcp9601",
+        "name": "K-type thermocouple on MCP9601"
+      }
+    }
+  ]
+}

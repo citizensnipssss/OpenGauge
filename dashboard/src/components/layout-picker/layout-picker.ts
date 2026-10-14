@@ -36,6 +36,13 @@ export class LayoutPicker extends HTMLElement {
         .name { font-size:18px; font-weight:700; }
         .count { font-size:12px; color:#9ab; }
         .rationale { font-size:13px; color:#aab4bf; line-height:1.4; }
+        @media (max-width:600px) {
+          .option-grid { grid-template-columns:1fr; gap:12px; }
+          .card { display:grid; grid-template-columns:80px minmax(0,1fr); gap:6px 14px; padding:16px; }
+          .preview { grid-column:1; grid-row:1 / span 3; align-self:center; }
+          .name, .count, .rationale { grid-column:2; }
+          .name { font-size:18px; } .count { font-size:14px; }
+        }
       </style>
       <div class="option-grid"></div>
     `;

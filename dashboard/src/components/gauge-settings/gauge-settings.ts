@@ -8,6 +8,8 @@ import type { DashboardSlotConfig } from '../../registry/types';
  */
 export class GaugeSettings extends HTMLElement {
   private slotId = '';
+  private styles: { id: string; name: string }[] = [];
+  private dashboardStyleName = '';
 
   constructor() {
     super();
@@ -18,8 +20,16 @@ export class GaugeSettings extends HTMLElement {
     this.hidden = true;
   }
 
-  open(slotId: string, def: GaugeDefinition, overrides: DashboardSlotConfig['overrides']) {
+  open(
+    slotId: string,
+    def: GaugeDefinition,
+    overrides: DashboardSlotConfig['overrides'],
+    styles: { id: string; name: string }[] = [],
+    dashboardStyleName = '',
+  ) {
     this.slotId = slotId;
+    this.styles = styles;
+    this.dashboardStyleName = dashboardStyleName;
     this.hidden = false;
     this.build(def, overrides);
   }
@@ -67,6 +77,11 @@ export class GaugeSettings extends HTMLElement {
         }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; }
         input[type=number]:focus { outline:none; border-color:#ff9700; }
+        select {
+          background:#0e1216; color:#eee; border:1px solid #2a3038; border-radius:8px;
+          padding:10px 12px; font-size:16px; font-family:Arial,sans-serif; width:100%; min-height:48px;
+        }
+        select:focus { outline:none; border-color:#ff9700; }
         .actions { display:flex; gap:10px; }
         .btn {
           flex:1; padding:13px; border-radius:10px; border:1px solid #2a3038;
@@ -88,6 +103,15 @@ export class GaugeSettings extends HTMLElement {
           </div>
           <button class="close" id="closeBtn" type="button" aria-label="Close">&times;</button>
         </div>
+
+        ${this.styles.length ? `
+        <div class="section-label">Gauge Style</div>
+        <div class="field">
+          <select id="inp-style">
+            <option value="">Same as dashboard (${this.dashboardStyleName})</option>
+            ${this.styles.map((s) => `<option value="${s.id}" ${s.id === overrides.designId ? 'selected' : ''}>${s.name}</option>`).join('')}
+          </select>
+        </div>` : ''}
 
         <div class="section-label">Scale Range</div>
         <div class="row">
@@ -119,6 +143,7 @@ export class GaugeSettings extends HTMLElement {
           </div>
         </div>` : ''}
 
+        <button class="btn" id="sensorSource" type="button">Configure sensor source</button>
         <div class="actions">
           <button class="btn danger" id="resetBtn" type="button">Reset to Defaults</button>
           <button class="btn primary" id="saveBtn" type="button">Save</button>
@@ -126,6 +151,7 @@ export class GaugeSettings extends HTMLElement {
       </div>
     `;
 
+    root.querySelector('#sensorSource')!.addEventListener('click', () => { this.close(); this.dispatchEvent(new CustomEvent('configure-sensor', {bubbles:true, composed:true, detail:{channel:def.telemetryKey}})); });
     root.querySelector('#backdrop')!.addEventListener('click', () => this.close());
     root.querySelector('#closeBtn')!.addEventListener('click', () => this.close());
     root.querySelector('#saveBtn')!.addEventListener('click', () => this.save(root, hasHigh, hasLow));
@@ -138,7 +164,9 @@ export class GaugeSettings extends HTMLElement {
       const v = parseFloat(el?.value ?? '');
       return isNaN(v) ? undefined : v;
     };
+    const style = root.querySelector<HTMLSelectElement>('#inp-style')?.value || undefined;
     const overrides: DashboardSlotConfig['overrides'] = {
+      designId: style,
       min: val('#inp-min'),
       max: val('#inp-max'),
       ...(hasHigh ? { warningHigh: val('#inp-warn-high') } : {}),

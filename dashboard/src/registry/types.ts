@@ -20,39 +20,7 @@ export interface GaugeDefinition {
   demoValue: number;
 }
 
-// Theme owns geometry/appearance only — see GAUGE_SYSTEM_SPEC.md.
-export interface ThemeConfig {
-  id: string;
-  name: string;
-  colors: {
-    active: string;
-    warning: string;
-    digits: string;
-  };
-  geometry: {
-    viewBox: [number, number, number, number];
-    arcStartDeg: number;
-    arcEndDeg: number;
-    segments: number;
-    segmentOuterRadius: number;
-    segmentInnerRadius: number;
-    segmentHalfAngleDeg: number;
-    majorTickOuterRadius: number;
-    majorTickInnerRadius: number;
-    minorTickOuterRadius: number;
-    minorTickInnerRadius: number;
-    scaleLabelRadius: number;
-  };
-  display: {
-    outer: { x: number; y: number; width: number; height: number; rx: number };
-    inner: { x: number; y: number; width: number; height: number; rx: number };
-  };
-  lowerIdentity: {
-    showIcon: boolean;
-    accentLine: boolean;
-    label: boolean;
-  };
-}
+// Gauge appearance lives in src/design (GaugeDesign) — parts-based designs.
 
 // Layout registry — see RESPONSIVE_UI.md "Layout auto-fit algorithm" and
 // CONFIG_FORMAT.md "Layout owns". Slot x/y/w/h are logical grid units, not
@@ -111,6 +79,8 @@ export interface DashboardSlotConfig {
     max?: number;
     warningHigh?: number;
     warningLow?: number;
+    /** Per-gauge design; falls back to the dashboard's themeId. */
+    designId?: string;
   };
 }
 

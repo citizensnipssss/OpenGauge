@@ -1,0 +1,52 @@
+workflows:
+  ios-compile-check:
+    name: OpenGauge iPhone compile check (no signing)
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    working_directory: dashboard
+    environment:
+      node: 22
+      xcode: latest
+    scripts:
+      - name: Install, test and sync
+        script: |
+          set -e
+          npm ci
+          npm test
+          npm run ios:sync
+      - name: Compile for iPhone simulator
+        script: |
+          set -e
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build/simulator CODE_SIGNING_ALLOWED=NO build
+    artifacts:
+      - dashboard/build/simulator/Build/Products/Debug-iphonesimulator/*.app
+  ios-signed:
+    name: OpenGauge signed iPhone build
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    working_directory: dashboard
+    environment:
+      node: 22
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.citizensnipssss.opengauge
+    scripts:
+      - name: Install and check shared dashboard
+        script: |
+          npm ci
+          npm test
+          npm run build
+          npm run ios:sync
+      - name: Apply uploaded Apple signing identity
+        script: xcode-project use-profiles
+      - name: Set unique build number
+        script: |
+          cd ios/App
+          agvtool new-version -all "$BUILD_NUMBER"
+      - name: Build signed IPA
+        script: xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
+    artifacts:
+      - dashboard/build/ios/ipa/*.ipa
+      - dashboard/build/ios/archive/*.xcarchive
+      - dashboard/dist/index.html

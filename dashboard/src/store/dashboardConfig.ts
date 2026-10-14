@@ -1,6 +1,6 @@
 import type { DashboardConfig, DashboardSlotConfig, GaugeDefinition, LayoutRegistry } from '../registry/types';
-
-const STORAGE_KEY = 'cummins-gauge-dashboard/config';
+import {backupSection} from '../platform/settings-backup.ts';
+import {readBrowserRecord, updateBrowserRecord} from '../project/browser-record.ts';
 
 export interface Registries {
   layouts: LayoutRegistry;
@@ -69,9 +69,9 @@ export class DashboardConfigStore {
 
   load(): DashboardConfig | null {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = readBrowserRecord().config;
       if (!raw) return null;
-      this.config = validateConfig(JSON.parse(raw), this.registries);
+      this.config = validateConfig(raw, this.registries);
       return this.config;
     } catch {
       return null;
@@ -79,25 +79,41 @@ export class DashboardConfigStore {
   }
 
   save(config: DashboardConfig) {
+    updateBrowserRecord({config});
     this.config = config;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
   }
 
   startNew(layoutId: string, themeId: string): DashboardConfig {
-    const slotIds = slotIdsForLayout(layoutId, this.registries.layouts) ?? [];
     const config: DashboardConfig = {
-      schemaVersion: 1,
-      layoutId,
-      themeId,
-      slots: slotIds.map((slotId) => ({ slotId, channelId: null, overrides: {} })),
+      schemaVersion: 1, layoutId, themeId,
+      slots: this.mapLayout(layoutId).slots,
+      ...(this.config?.themeOverrides ? {themeOverrides:this.config.themeOverrides} : {}),
     };
     this.save(config);
     return config;
   }
 
+  private mapLayout(layoutId: string) {
+    const ids = slotIdsForLayout(layoutId, this.registries.layouts);
+    if (!ids) throw new Error('Unknown layout');
+    const old = this.config?.slots ?? [];
+    if (layoutId === this.config?.layoutId) {
+      return {slots: ids.map(id => {const s=old.find(s=>s.slotId===id);return {slotId:id,channelId:s?.channelId??null,overrides:s?.overrides??{}};}), dropped:[] as DashboardSlotConfig[]};
+    }
+    const used = new Set<string>();
+    const mapped = ids.map(id => {const s=old.find(s=>s.slotId===id && s.channelId);if(s)used.add(s.slotId);return s;});
+    const remaining = old.filter(s=>s.channelId && !used.has(s.slotId));
+    const slots = ids.map((id,i)=>{const previous=mapped[i]??remaining.shift();return {slotId:id,channelId:previous?.channelId??null,overrides:previous?.overrides??{}};});
+    return {slots,dropped:remaining};
+  }
+
+  previewLayout(layoutId: string) {
+    return this.mapLayout(layoutId);
+  }
+
   assignChannel(slotId: string, channelId: string | null): DashboardConfig {
     if (!this.config) throw new Error('No active dashboard config');
-    const slots = this.config.slots.map((s) => (s.slotId === slotId ? { ...s, channelId } : s));
+    const slots = this.config.slots.map((s) => (s.slotId === slotId && s.channelId !== channelId ? { ...s, channelId, overrides:s.overrides.designId ? {designId:s.overrides.designId} : {} } : s));
     const next = { ...this.config, slots };
     this.save(next);
     return next;
@@ -126,7 +142,7 @@ export class DashboardConfigStore {
   importJson(text: string): DashboardConfig | null {
     let parsed: unknown;
     try {
-      parsed = JSON.parse(text);
+      parsed = backupSection(JSON.parse(text),'dashboard');
     } catch {
       return null;
     }
@@ -136,7 +152,7 @@ export class DashboardConfigStore {
   }
 
   clear() {
+    updateBrowserRecord({config:null});
     this.config = null;
-    localStorage.removeItem(STORAGE_KEY);
   }
 }

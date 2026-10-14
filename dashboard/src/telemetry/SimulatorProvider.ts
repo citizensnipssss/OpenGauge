@@ -133,7 +133,7 @@ export class SimulatorProvider implements TelemetryProvider {
 
   start() {
     this.stop();
-    this.store.setConnectionStatus('connected');
+    this.store.setConnectionStatus(this.scenario === 'disconnect' ? 'disconnected' : 'connected');
 
     // Fast tick: rpm, boost, egt, speed, oil_pressure, engine_load, fuel_pressure, voltage
     const fastKeys = ['rpm', 'boost', 'egt', 'speed', 'oil_pressure', 'engine_load', 'fuel_pressure', 'voltage'];

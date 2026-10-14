@@ -1,0 +1,59 @@
+{
+  "schema": "opengauge-design/1",
+  "id": "smooth_ring",
+  "name": "Smooth Ring",
+  "colors": {
+    "active": "#18c8ff",
+    "warning": "#ff3355",
+    "digits": "#ffffff",
+    "off": "#8a95a0",
+    "text": "#e6ebf0",
+    "tickMajor": "#e6ebf0",
+    "tickMinor": "#5d6772"
+  },
+  "glow": true,
+  "frame": {
+    "style": "black",
+    "shape": "round",
+    "face": "gradient",
+    "faceColor": "#14181c"
+  },
+  "indicator": {
+    "type": "arc-smooth",
+    "startDeg": -135,
+    "endDeg": 135,
+    "radius": 330,
+    "thickness": 46,
+    "roundCaps": true
+  },
+  "scale": {
+    "show": true,
+    "offset": 22,
+    "majorLength": 18,
+    "minorLength": 10,
+    "labelGap": 30,
+    "labelSize": 30
+  },
+  "readout": {
+    "show": true,
+    "style": "text",
+    "x": 500,
+    "y": 470,
+    "size": 1.0,
+    "box": false,
+    "warnColor": true
+  },
+  "unit": {
+    "show": true,
+    "x": 500,
+    "y": 600,
+    "size": 30
+  },
+  "label": {
+    "show": true,
+    "x": 500,
+    "y": 790,
+    "size": 44,
+    "accentLine": false
+  }
+}

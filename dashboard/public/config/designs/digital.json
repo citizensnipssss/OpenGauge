@@ -1,0 +1,50 @@
+{
+  "schema": "opengauge-design/1",
+  "id": "digital",
+  "name": "Digital",
+  "colors": {
+    "active": "#ff9700",
+    "warning": "#ff2b2b",
+    "digits": "#f2f5f7",
+    "off": "#7d858c",
+    "text": "#c9d0d6",
+    "tickMajor": "#e8ebee",
+    "tickMinor": "#6b737a"
+  },
+  "glow": true,
+  "frame": {
+    "style": "flat",
+    "shape": "square",
+    "color": "#2a3038",
+    "face": "matte",
+    "faceColor": "#07090b"
+  },
+  "indicator": {
+    "type": "none"
+  },
+  "scale": {
+    "show": false
+  },
+  "readout": {
+    "show": true,
+    "style": "text",
+    "x": 500,
+    "y": 455,
+    "size": 1.55,
+    "box": false,
+    "warnColor": true
+  },
+  "unit": {
+    "show": true,
+    "x": 500,
+    "y": 650,
+    "size": 46
+  },
+  "label": {
+    "show": true,
+    "x": 500,
+    "y": 810,
+    "size": 64,
+    "accentLine": true
+  }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "ads1115",
+    "name": "ADS1115",
+    "connection": "I²C · standard Wire bus",
+    "addresses": [
+      72,
+      73,
+      74,
+      75
+    ],
+    "inputs": [
+      "A0",
+      "A1",
+      "A2",
+      "A3"
+    ],
+    "notes": "This driver assumes 3.3 V ADC power, single-ended inputs and GAIN_ONE. Use a voltage divider for 5 V sensor outputs.",
+    "source": "https://www.ti.com/lit/ds/symlink/ads1115.pdf"
+  },
+  {
+    "type": "mcp9601",
+    "name": "MCP9601 / MCP9600",
+    "connection": "I²C · standard Wire bus",
+    "addresses": [
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103
+    ],
+    "inputs": [
+      "Hot-junction thermocouple"
+    ],
+    "notes": "The initial driver supports K-type only. Check your breakout address and thermocouple polarity.",
+    "source": "https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP960X-Data-Sheet-20005426.pdf"
+  }
+]

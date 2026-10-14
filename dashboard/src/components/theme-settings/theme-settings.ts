@@ -1,4 +1,5 @@
-import type { ThemeConfig, ThemeOverrides } from '../../registry/types';
+import type { ThemeOverrides } from '../../registry/types';
+import type { GaugeDesign } from '../../design/types';
 
 /**
  * <theme-settings> — whole-dashboard color override panel.
@@ -14,12 +15,12 @@ export class ThemeSettings extends HTMLElement {
     this.hidden = true;
   }
 
-  open(theme: ThemeConfig, overrides: ThemeOverrides | undefined) {
+  open(theme: GaugeDesign, overrides: ThemeOverrides | undefined) {
     this.hidden = false;
     this.build(theme, overrides ?? {});
   }
 
-  private build(theme: ThemeConfig, overrides: ThemeOverrides) {
+  private build(theme: GaugeDesign, overrides: ThemeOverrides) {
     const cur = {
       activeColor:  overrides.activeColor  ?? theme.colors.active,
       warningColor: overrides.warningColor ?? theme.colors.warning,

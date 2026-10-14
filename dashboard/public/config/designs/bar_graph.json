@@ -1,0 +1,63 @@
+{
+  "schema": "opengauge-design/1",
+  "id": "bar_graph",
+  "name": "Bar Graph",
+  "colors": {
+    "active": "#29d65f",
+    "warning": "#ff3b30",
+    "digits": "#ffffff",
+    "off": "#7d858c",
+    "text": "#e8ebee",
+    "tickMajor": "#e8ebee",
+    "tickMinor": "#6b737a"
+  },
+  "glow": true,
+  "frame": {
+    "style": "none",
+    "shape": "square",
+    "face": "matte",
+    "faceColor": "#0d1013"
+  },
+  "indicator": {
+    "type": "bar",
+    "orientation": "vertical",
+    "x": 620,
+    "y": 130,
+    "width": 170,
+    "height": 660,
+    "segments": 20,
+    "fill": 0.78,
+    "radius": 6
+  },
+  "scale": {
+    "show": true,
+    "offset": 14,
+    "majorLength": 24,
+    "minorLength": 12,
+    "labelGap": 20,
+    "labelSize": 30,
+    "side": "start"
+  },
+  "readout": {
+    "show": true,
+    "style": "text",
+    "x": 290,
+    "y": 470,
+    "size": 0.75,
+    "box": false,
+    "warnColor": true
+  },
+  "unit": {
+    "show": true,
+    "x": 290,
+    "y": 585,
+    "size": 34
+  },
+  "label": {
+    "show": true,
+    "x": 290,
+    "y": 300,
+    "size": 50,
+    "accentLine": true
+  }
+}
